@@ -1,5 +1,5 @@
 # projet_SE
-1-les structures de données à utiliser :
+1͟-͟l͟e͟s͟ ͟s͟t͟r͟u͟c͟t͟u͟r͟e͟s͟ ͟d͟e͟ ͟d͟o͟n͟n͟é͟e͟s͟ ͟à͟ ͟u͟t͟i͟l͟i͟s͟e͟r͟ ͟:͟
 
 1/-Matrices B, C, A :
 
@@ -25,7 +25,7 @@ Chaque thread producteur calculera une ligne de la matrice résultante A et stoc
 
   
   
-  2-POUR PROTÉGER L'ACCÈS A CES DONNÉES PARTAGÉES ON UTILISE DES MÉCANISMES DE SYNCHRONISATION TELS QUE LES MUTEX ET LES SÉMAPHORES :
+2͟-͟P͟O͟U͟R͟ ͟P͟R͟O͟T͟É͟G͟E͟R͟ ͟L͟'͟A͟C͟C͟È͟S͟ ͟A͟ ͟C͟E͟S͟ ͟D͟O͟N͟N͟É͟E͟S͟ ͟P͟A͟R͟T͟A͟G͟É͟E͟S͟ ͟O͟N͟ ͟U͟T͟I͟L͟I͟S͟E͟ ͟D͟E͟S͟ ͟M͟É͟C͟A͟N͟I͟S͟M͟E͟S͟ ͟D͟E͟ ͟S͟Y͟N͟C͟H͟R͟O͟N͟I͟S͟A͟T͟I͟O͟N͟ ͟T͟E͟L͟S͟ ͟Q͟U͟E͟ ͟L͟E͟S͟ ͟M͟U͟T͟E͟X͟ ͟E͟T͟ ͟L͟E͟S͟ ͟S͟É͟M͟A͟P͟H͟O͟R͟E͟S͟ ͟:͟
 
 
 *) Mutex (pthread_mutex_t mutex) :Utilisez le mutex pour assurer l'exclusion mutuelle lors de l'accès aux données partagées. Cela signifie que lorsqu'un thread acquiert le mutex, aucun autre thread ne peut y accéder jusqu'à ce que le mutex soit libéré.
@@ -35,7 +35,7 @@ Chaque thread producteur calculera une ligne de la matrice résultante A et stoc
 Utilisez les sémaphores pour gérer la synchronisation entre les threads producteurs et consommateurs. Le sémaphore empty indique le nombre de places vides dans le tampon, tandis que le sémaphore full indique le nombre de places remplies.
 
 
-3) LES RISQUES SONT :
+3͟)͟ ͟L͟E͟S͟ ͟R͟I͟S͟Q͟U͟E͟S͟ ͟S͟O͟N͟T͟ ͟:͟
 
 *)Conditions de concurrence :
 Des conditions de concurrence peuvent se produire lorsqu'il y a un accès simultané aux données partagées par plusieurs threads sans la protection adéquate. Cela peut entraîner des résultats incorrects dans les calculs.
