@@ -34,23 +34,28 @@ Utilisez les sémaphores pour gérer la synchronisation entre les threads produc
 
 
 3) LES RISQUES SONT :
+
 *Conditions de concurrence :
-
 Des conditions de concurrence peuvent se produire lorsqu'il y a un accès simultané aux données partagées par plusieurs threads sans la protection adéquate. Cela peut entraîner des résultats incorrects dans les calculs.
+
 *Deadlocks :
-
 Un deadlock peut se produire si les threads ne sont pas correctement synchronisés. Par exemple, si un thread consommateur attend des données alors qu'aucun producteur ne produit, et vice versa, cela peut conduire à un blocage complet du programme.
+
+
 *Starvation :
-
 La starvation peut se produire si l'un des types de threads (producteurs ou consommateurs) est favorisé, et l'autre type n'a jamais l'opportunité de s'exécuter. Cela peut résulter d'une mauvaise gestion des sémaphores ou de la planification des threads.
+
+
 *Problèmes de performance :
-
 Une mauvaise gestion de la synchronisation peut entraîner une surcharge importante liée à l'acquisition et à la libération fréquentes de mutex, ce qui peut affecter les performances globales du programme.
+
+
+
 *Inversion de priorité :
-
 L'inversion de priorité peut se produire lorsqu'un thread de priorité inférieure acquiert un verrou alors qu'un thread de priorité supérieure attend. Cela peut affecter les performances du système et la réactivité.
-Dépassement de tampon :
 
+
+*Dépassement de tampon :
 Si la taille du tampon n'est pas correctement gérée par les sémaphores, il peut y avoir un dépassement de tampon, entraînant la perte de données ou des erreurs dans les résultats
 
 
