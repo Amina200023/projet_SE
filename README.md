@@ -28,6 +28,7 @@ Chaque thread producteur calculera une ligne de la matrice résultante A et stoc
 
 *1) Mutex (pthread_mutex_t mutex) :Utilisez le mutex pour assurer l'exclusion mutuelle lors de l'accès aux données partagées. Cela signifie que lorsqu'un thread acquiert le mutex, aucun autre thread ne peut y accéder jusqu'à ce que le mutex soit libéré.
 
+
 *2) Sémaphores (sem_t empty et sem_t full) :
 Utilisez les sémaphores pour gérer la synchronisation entre les threads producteurs et consommateurs. Le sémaphore empty indique le nombre de places vides dans le tampon, tandis que le sémaphore full indique le nombre de places remplies.
 
