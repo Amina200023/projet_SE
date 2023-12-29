@@ -23,7 +23,7 @@ sem_t full; : Sémaphore représentant les places remplies dans le tampon.
 
 Chaque thread producteur calculera une ligne de la matrice résultante A et stockera les résultats dans le tampon T. Les threads consommateurs récupéreront les éléments du tampon T et les placeront dans la matrice résultante A au bon emplacement.
 
-2-Pour Protéger L'accès A Ces Données Partagées On Utilise Des Mécanismes De Synchronisation Tels Que Les Mutex Et Les Sémaphores :
+2-POUR PROTÉGER L'ACCÈS A CES DONNÉES PARTAGÉES ON UTILISE DES MÉCANISMES DE SYNCHRONISATION TELS QUE LES MUTEX ET LES SÉMAPHORES :
 
 
 *) Mutex (pthread_mutex_t mutex) :Utilisez le mutex pour assurer l'exclusion mutuelle lors de l'accès aux données partagées. Cela signifie que lorsqu'un thread acquiert le mutex, aucun autre thread ne peut y accéder jusqu'à ce que le mutex soit libéré.
