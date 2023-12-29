@@ -1,5 +1,6 @@
 # projet_SE
 1-les structures de données à utiliser :
+
 1/-Matrices B, C, A :
 B (n1 * m1) : Matrice contenant les valeurs aléatoires pour la première matrice.
 C (n2 * m2) : Matrice contenant les valeurs aléatoires pour la deuxième matrice.
