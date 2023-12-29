@@ -17,6 +17,7 @@ Tampon de taille N pour stocker les résultats intermédiaires de la multiplicat
 pthread_mutex_t mutex; : Mutex pour assurer l'exclusion mutuelle lors de l'accès aux données partagées.
 sem_t empty; : Sémaphore représentant les places vides dans le tampon.
 sem_t full; : Sémaphore représentant les places remplies dans le tampon.
+
 Chaque thread producteur calculera une ligne de la matrice résultante A et stockera les résultats dans le tampon T. Les threads consommateurs récupéreront les éléments du tampon T et les placeront dans la matrice résultante A au bon emplacement.
 
 2-Pour protéger l'accès a ces données partagées on utilise des mécanismes de synchronisation tels que les mutex et les sémaphores :
