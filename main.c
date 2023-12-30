@@ -1,129 +1,164 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>  
 #include <pthread.h>
 #include <semaphore.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-#define N 10  
-#define n1 3 
-#define m1 3  
-#define n2 3  
-#define m2 3  
-#define ITERATIONS 5  // Nombre d'itérations pour le producteur et le consommateur
+#define Thread 12
+#define N 12
 
-// Matrices
-int B[n1][m1];
-int C[n2][m2];
-int A[n1][m2];
+int n1, m1, n2, m2;
+int tompon[N];
+int count = 0;
 
-// Tampon
-int T[N];
-
-// Mutex et Sémaphores
 pthread_mutex_t mutex;
-sem_t empty;
-sem_t full;
+sem_t semFull, semEmpty;
 
+int B[N][N]; 
+int A[N][N]; 
+int C[N][N];
 
-int produire(int ligne);
-void inserer_element(int ligne, int element);
-int retirer_element(void);
-void consommer(int element);
-void initialiserMatrices(void);
-void initialiserTampon(void);
+void *producer(void *args)
+{
+    int row = *(int *)args;
+    int somme;
 
+    for (int col = 0; col < m2; col++)
+    {
+        
+        somme = 0;
+        for (int i = 0; i < m1; i++)
+        {
+            somme += B[row][i] * A[i][col];
+        }
 
-void *producteur(void *arg) {
-    int element;
-    for (int i = 0; i < ITERATIONS; ++i) {
-        element = produire(i);
-        sem_wait(&empty);
+       
+        sem_wait(&semEmpty);
         pthread_mutex_lock(&mutex);
-        inserer_element(i, element);
+        tompon[count] = somme;
+        count++;
         pthread_mutex_unlock(&mutex);
-        sem_post(&full);
+        sem_post(&semFull);
     }
+
+    free(args);
     pthread_exit(NULL);
 }
 
+void *consumer(void *args)
+{
+    int col = *(int *)args;
+    int result;
 
-void *consommateur(void *arg) {
-    int element;
-    for (int i = 0; i < ITERATIONS; ++i) {
-        sem_wait(&full);
+    for (int row = 0; row < n1; row++)
+    {
+      
+        sem_wait(&semFull);
         pthread_mutex_lock(&mutex);
-        element = retirer_element();
+        count--;
+        result = tompon[count];
         pthread_mutex_unlock(&mutex);
-        sem_post(&empty);
-        consommer(element);
+        sem_post(&semEmpty);
+
+     
+        C[row][col] = result;
     }
+
+    free(args);
     pthread_exit(NULL);
 }
-int produire(int ligne) {
-   
-    srand(time(NULL));
-    return rand();
-}
 
-void inserer_element(int ligne, int element) {
+int main()
+{
+    
+    n1 = m1 = n2 = m2 = 5; 
 
-    T[ligne] = element;
-}
-
-int retirer_element(void) {
-
-    return T[0];
-}
-
-void consommer(int element) {
-   
-    printf("Élément consommé : %d\n", element);
-}
-
-void initialiserMatrices(void) {
-
-    for (int i = 0; i < n1; ++i) {
-        for (int j = 0; j < m1; ++j) {
-            B[i][j] = rand();
+    
+    for (int i = 0; i < n1; i++)
+    {
+        for (int j = 0; j < m1; j++)
+        {
+            B[i][j] = rand() % 100;
         }
     }
 
-    for (int i = 0; i < n2; ++i) {
-        for (int j = 0; j < m2; ++j) {
-            C[i][j] = rand();
+    for (int i = 0; i < n2; i++)
+    {
+        for (int j = 0; j < m2; j++)
+        {
+            A[i][j] = rand() % 100; 
         }
     }
-}
 
-void initialiserTampon(void) {
-    for (int i = 0; i < N; ++i) {
-        T[i] = 0;
-    }
-}
-// Fonction principale
-int main() {
-    initialiserMatrices();
-    initialiserTampon();
-
+    pthread_t producers[Thread], consumers[Thread];
     pthread_mutex_init(&mutex, NULL);
-    sem_init(&empty, 0, N);
-    sem_init(&full, 0, 0);
+    sem_init(&semFull, 0, 0);
+    sem_init(&semEmpty, 0, N);
 
-    pthread_t threadProducteur, threadConsommateur;
-    pthread_create(&threadProducteur, NULL, producteur, NULL);
-    pthread_create(&threadConsommateur, NULL, consommateur, NULL);
+   
+    printf("La Matrice A:\n");
+    for (int i = 0; i < n1; i++)
+    {
+        for (int j = 0; j < m2; j++)
+        {
+            printf("%d ", A[i][j]);
+        }
+        printf("\n");
+    }
 
-    pthread_join(threadProducteur, NULL);
-    pthread_join(threadConsommateur, NULL);
+    printf("La Matrice B:\n");
+    for (int i = 0; i < n1; i++)
+    {
+        for (int j = 0; j < m2; j++)
+        {
+            printf("%d ", B[i][j]);
+        }
+        printf("\n");
+    }
+
+  
+    for (int i = 0; i < n1; i++)
+    {
+        int *a = malloc(sizeof(int));
+        *a = i;
+        pthread_create(&producers[i], NULL, producer, (void *)a);
+    }
+
+
+    for (int i = 0; i < m2; i++)
+    {
+        int *a = malloc(sizeof(int));
+        *a = i;
+        pthread_create(&consumers[i], NULL, consumer, (void *)a);
+    }
+
+
+    for (int i = 0; i < n1; i++)
+    {
+        pthread_join(producers[i], NULL);
+    }
+
+
+    for (int i = 0; i < m2; i++)
+    {
+        pthread_join(consumers[i], NULL);
+    }
+
+
+    printf("La Matrice C:\n");
+    for (int i = 0; i < n1; i++)
+    {
+        for (int j = 0; j < m2; j++)
+        {
+            printf("%d ", C[i][j]);
+        }
+        printf("\n");
+    }
 
     pthread_mutex_destroy(&mutex);
-    sem_destroy(&empty);
-    sem_destroy(&full);
+    sem_destroy(&semFull);
+    sem_destroy(&semEmpty);
 
     return 0;
 }
-
-
-
 
 
