@@ -70,7 +70,7 @@ void *consumer(void *args)
 int main()
 {
     
-    n1 = m1 = n2 = m2 = 5; 
+    n1 = m1 = n2 = m2 = 3; 
 
     
     for (int i = 0; i < n1; i++)
@@ -160,5 +160,4 @@ int main()
 
     return 0;
 }
-
 
